@@ -119,13 +119,6 @@ I see GitHub as a place to organize not only code, but also scientific thinking,
 
 ---
 
-## 📌 Featured Projects
-
-- [Chemistry Data Analysis](./chemistry-data-analysis/)  
-  A growing collection of Python workflows for calibration curves, spectroscopy data, titration calculations, reaction yields, and other chemistry lab data tasks.
-
----
-
 ## 📚 Current Learning Focus
 
 I am currently strengthening my background in:
