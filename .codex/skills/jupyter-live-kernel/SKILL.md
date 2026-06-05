@@ -1,73 +1,37 @@
 ---
 name: jupyter-live-kernel
-description: "Iterative Python via live Jupyter kernel (hamelnb)."
+description: Use a live Jupyter kernel for stateful, iterative Python execution, notebooks, data exploration, ML experimentation, and inspecting intermediate results.
 version: 1.0.0
-author: Hermes Agent
-license: MIT
-platforms: [linux, macos, windows]
-metadata:
-  hermes:
-    tags: [jupyter, notebook, repl, data-science, exploration, iterative]
-    category: data-science
 source: https://github.com/NousResearch/hermes-agent/tree/main/skills/data-science/jupyter-live-kernel
+license: MIT
 ---
 
-# Jupyter Live Kernel (hamelnb)
+# Jupyter Live Kernel
 
-Gives you a stateful Python REPL via a live Jupyter kernel. Variables persist across executions. Use this instead of one-shot scripts when you need to build up state incrementally, explore APIs, inspect DataFrames, or iterate on complex code.
+Use this skill when the user needs notebook-style, stateful Python work: exploratory data analysis, iterative plotting, API exploration, ML experiments, or debugging values across multiple executions.
 
-## When to Use
+## When to Prefer This
 
-- Iterative exploration.
-- State across steps.
-- Data science and ML experiments.
-- Notebook-like workflows.
+- Variables need to persist between runs.
+- You need to inspect intermediate DataFrames, arrays, plots, or model outputs.
+- The work would naturally happen in a notebook instead of a one-shot script.
 
-Rule of thumb: if you would want a Jupyter notebook for the task, use this skill.
-
-## Prerequisites
-
-1. `uv` must be installed (`which uv`).
-2. JupyterLab must be installed (`uv tool install jupyterlab`).
-3. A Jupyter server must be running.
-
-## Setup
-
-The upstream hamelnb script path is:
+## Setup Pattern
 
 ```bash
-SCRIPT="$HOME/.agent-skills/hamelnb/skills/jupyter-live-kernel/scripts/jupyter_live_kernel.py"
-```
+# Check for uv and Jupyter
+which uv
+uv tool list | sed -n '/jupyter/p'
 
-If not cloned yet:
-
-```bash
-git clone https://github.com/hamelsmu/hamelnb.git ~/.agent-skills/hamelnb
-```
-
-Start JupyterLab when needed:
-
-```bash
-jupyter-lab --no-browser --port=8888 --notebook-dir=$HOME/notebooks \
+# Start JupyterLab if needed
+jupyter-lab --no-browser --port=8888 --notebook-dir="$HOME/notebooks" \
   --IdentityProvider.token='' --ServerApp.password='' > /tmp/jupyter.log 2>&1 &
 ```
 
-## Core Workflow
+## Operating Rules
 
-Always use `--compact` when the upstream script supports it.
-
-```bash
-uv run "$SCRIPT" servers --compact
-uv run "$SCRIPT" notebooks --compact
-uv run "$SCRIPT" execute --path scratch.ipynb --code 'print("hello")' --compact
-uv run "$SCRIPT" variables --path scratch.ipynb list --compact
-uv run "$SCRIPT" restart-run-all --path scratch.ipynb --save-outputs --compact
-```
-
-## Practical Tips
-
-- First execution after server start may timeout; retry once.
-- The kernel Python is JupyterLab's Python, so install packages there.
-- For pure REPL use, create `scratch.ipynb` and repeatedly call `execute`.
-- Argument order matters: subcommand flags like `--path` go before nested actions.
-- For long-running operations, pass a larger timeout such as `--timeout 120`.
+1. Keep scratch notebooks in a task-local or user-approved notebooks directory.
+2. Use compact output where supported to avoid excessive logs.
+3. Retry once after initial kernel/session timeouts.
+4. Save important plots, tables, and notebooks as artifacts.
+5. For clean verification, restart the kernel and run all cells top-to-bottom.

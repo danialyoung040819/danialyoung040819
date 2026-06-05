@@ -1,81 +1,62 @@
 ---
 name: research-paper-writing
-description: Improve academic paper writing quality for ML/CV/NLP-style papers with clear section structure, paragraph flow, and reviewer-facing presentation. Use when drafting or revising Abstract, Introduction, Related Work, Method, Experiments, or Conclusion; polishing figures/tables; checking claim-support alignment; or performing self-review before submission.
-source: https://github.com/Master-cai/Research-Paper-Writing-Skills/tree/main/research-paper-writing
+description: End-to-end workflow for writing ML/AI research papers, from contribution framing and experiments through analysis, LaTeX drafting, self-review, revision, and submission.
+version: 1.1.0
+source: https://github.com/NousResearch/hermes-agent/tree/main/skills/research/research-paper-writing
 license: MIT
 ---
 
-# Research Paper Writing
+# Research Paper Writing Pipeline
 
-## Overview
+Use this skill for drafting, revising, or preparing research papers, especially ML/AI papers for venues such as NeurIPS, ICML, ICLR, ACL, AAAI, COLM, workshops, or arXiv.
 
-Use this skill to rewrite a research paper into a reviewer-friendly, high-clarity draft. Prioritize first-impression quality (figures/tables/layout), logical flow, and evidence-backed claims.
+## Principles
 
-## Core Workflow
+1. Draft concrete text first when enough context exists; flag assumptions instead of stalling.
+2. Never hallucinate citations. Fetch metadata programmatically or mark `[CITATION NEEDED]`.
+3. Make the paper a story: one contribution, one narrative, evidence matched to claims.
+4. Experiments must support explicit claims.
+5. Commit meaningful experiment batches, analyses, and draft changes.
 
-1. Clarify the paper story before sentence-level edits.
-2. Use section-specific guidance in `references/` when it exists.
-3. Rewrite paragraph-by-paragraph with one message per paragraph.
-4. Run reverse outlining after writing each section.
-5. Check every major claim in Abstract/Introduction against experimental evidence.
-6. Run final-paper adversarial review before submission.
+## Pipeline
 
-## Global Principles
+### Phase 0: Project Setup
 
-1. Keep one paragraph for one message only.
-2. State the paragraph message in the first sentence.
-3. Make nouns self-contained; define new terms before reusing them.
-4. Maintain sentence-to-sentence flow through cause, contrast, consequence, or refinement.
-5. Iterate with adversarial self-review: read as a skeptical reviewer.
-6. Treat visual quality as core content, not decoration.
-7. Use clean teaser/pipeline figures and readable, minimal-ink tables.
-8. Keep formatting consistent and tidy.
+- Identify the one-sentence contribution.
+- Locate existing code, data, results, notes, and `.bib` files.
+- Create a TODO plan for literature, experiments, analysis, drafting, review, and submission.
 
-## Paragraph Clarity Check
+### Phase 1: Literature Review
 
-When evaluating whether a paragraph flows:
+- Use arXiv, Semantic Scholar, Crossref, and venue proceedings.
+- Build a verified bibliography.
+- Group related work by claim and contrast, not by chronological summary.
 
-1. Read as an external reviewer and ask whether it has one explicit message, a clear first-sentence topic, readable terms, and sentence-to-sentence logic.
-2. Reverse-outline the section: thesis, paragraph topic sentences, and evidence under each paragraph.
-3. Remove or rewrite paragraphs that do not map cleanly to the section thesis.
-4. Use temporary headers or transitions to diagnose flow, then remove anything unnecessary.
+### Phase 2: Experiment Design
 
-## Section Guides
+- For each paper claim, define the exact table, figure, or metric that would support it.
+- Include baselines, ablations, seeds, statistical tests, and failure cases.
 
-Load only the needed section guide/reference for the current edit target:
+### Phase 3: Execution and Monitoring
 
-- Introduction
-- Abstract
-- Related Work
-- Method
-- Experiments
-- Conclusion
-- Paper review
-- Paragraph clarity source
-- Example bank
+- Run reproducible commands.
+- Capture configs, random seeds, logs, and raw outputs.
+- Stop or redirect experiments that no longer support the narrative.
 
-## Paper Review Core Points
+### Phase 4: Analysis
 
-1. Add and answer an end-of-draft self-review list in five dimensions: contribution, writing clarity, experimental strength, evaluation completeness, and method design soundness.
-2. Treat claim-evidence alignment as a hard constraint, especially for Abstract and Introduction.
-3. Review as a skeptical reviewer and resolve high-risk questions.
-4. Revise until major rejection risks are explicitly addressed.
+- Produce publication-ready figures and tables.
+- Report uncertainty, variance, and meaningful effect sizes.
+- Connect every result back to the story.
 
-## Execution Rules
+### Phase 5: Drafting
 
-1. Build a mini-outline before drafting prose.
-2. For each subsection, include motivation, design, and technical advantage when applicable.
-3. Avoid a style that looks like incremental patching of a naive baseline.
-4. Keep terminology stable across the full paper.
-5. If a claim cannot be supported by results, weaken or remove it.
-6. Before finalizing, append and answer a five-dimension self-review checklist, then revise unresolved items.
-7. Do not load all section references at once; load only the specific guide needed.
+Recommended order: title, abstract, introduction, methods, experiments, related work, limitations, conclusion.
 
-## Output Contract
+### Phase 6: Self-Review
 
-When asked to rewrite or draft sections, return:
+Simulate reviewers for novelty, correctness, clarity, significance, reproducibility, and ethics.
 
-1. A compact section outline (3-7 bullets).
-2. Revised paragraphs with explicit paragraph roles.
-3. A short self-review checklist for clarity, flow, terminology consistency, unsupported claims, and missing evidence.
-4. A claim-evidence map for major claims using `Claim: ... | Evidence: ... | Status: supported/needs evidence`.
+### Phase 7: Submission
+
+Check page limits, templates, anonymization, reproducibility checklist, supplementary material, and final PDF compilation.
